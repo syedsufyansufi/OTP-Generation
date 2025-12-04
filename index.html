@@ -65,7 +65,7 @@
 
           if (time < 0) {
             clearInterval(timer);
-            isOtpValid = false; // OTP becomes invalid
+            isOtpValid = false;
             display.textContent = "OTP expired. Generate a new one.";
           }
         }, 1000);
