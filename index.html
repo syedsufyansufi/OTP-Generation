@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>OTP Project</title>
+  </head>
+  <body>
+    <div id="container">
+      <h1>OTP Verification.</h1>
+      <label>Enter OTP:</label>
+      <input type="text" id="otp" class="input" />
+      <div class="btn-grp">
+        <button class="btn-primary" onclick="genOtp()">Generate OTP</button>
+        <button class="btn-success" onclick="checkOtp()">Check OTP</button>
+      </div>
+      <hr>
+      <h1 id="display"></h1>
+      <p id="timer"></p>
+    </div>
+    <script>
+      let CurrOtp = null;
+      let timer = null;
+      let isOtpValid = false;
+
+      function genOtp() {
+        isOtpValid = true;
+        CurrOtp = Math.floor(1000 + Math.random() * 9000);
+        alert(`OTP Is Generated its valid for 1 min: ${CurrOtp}`);
+        startTimer();
+      }
+
+      function checkOtp() {
+        let userOtp = document.getElementById("otp").value;
+
+        if (!isOtpValid) {
+          document.getElementById("display").textContent =
+            "OTP expired. Generate again.";
+          return;
+        }
+
+        if (userOtp == CurrOtp) {
+          document.getElementById("display").textContent =
+            "OTP Verified Successfully!";
+            clearInterval(timer);
+            document.getElementById("timer").textContent =
+            "";
+
+        } else {
+          document.getElementById("display").textContent =
+            "Invalid OTP. Please try again.";
+        }
+      }
+
+      function startTimer() {
+        clearInterval(timer);
+
+        let time = 30;
+        const display = document.getElementById("timer");
+
+        timer = setInterval(() => {
+          display.textContent = `OTP expires in ${time} seconds`;
+          time--;
+
+          if (time < 0) {
+            clearInterval(timer);
+            isOtpValid = false; // OTP becomes invalid
+            display.textContent = "OTP expired. Generate a new one.";
+          }
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>
